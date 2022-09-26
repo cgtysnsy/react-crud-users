@@ -12,7 +12,7 @@
   * Createuser modal
 
 ### 2- Create Components State Data
-
+-----------------------------------------------
 > What I practiced?
 
 - Passing data to components
