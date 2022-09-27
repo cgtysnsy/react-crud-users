@@ -19,7 +19,7 @@ const DataTable = ({ users }) => {
       <tbody>
         {users.length ? (
           users.map((user) => (
-            <tr key={user.id}>
+            <tr key={user.createdAt}>
               <td className="field-avatar">
                 <img src={user.avatar} alt={user.firstname} />
               </td>

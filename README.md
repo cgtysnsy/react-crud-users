@@ -23,12 +23,22 @@
 - Loading feature
 - Arrow functions
 - Rendering list data with map
+- Filtering data
+- Filter by name, surname
+- setState callbacks
+- Stateless functional components
+- Project structure
 
 ## Tasks to do
 
 - Update and delete functionality for components
 
-- Search users
+- Pagination
+
+## What I learnt
+
+- It is better to keep input states its own component.
+- Important; setting the state is asynchronous, we need to define a callback function for changing the state at the same time. For the hooks "useState".
 
 ## Image
 

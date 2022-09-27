@@ -10,7 +10,9 @@ const Users = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [modal, setModal] = useState({ name: "", active: false });
-
+  const [search, setSearch] = useState("");
+  const [filtered, setFiltered] = useState([]);
+  const [selected, setSelected] = useState("firstname");
   const fetchUsers = async () => {
     setLoading(true);
 
@@ -27,6 +29,7 @@ const Users = () => {
         setLoading(false);
       }, 500);
     }
+    console.log(users);
   };
 
   const createUser = async (user) => {
@@ -51,6 +54,23 @@ const Users = () => {
     fetchUsers();
   }, []);
 
+  //function for the search
+  const getSearch = (e) => {
+    setSearch(e.target.value);
+  };
+  const selectType = (e) => {
+    setSelected(e.target.value);
+  };
+
+  //function for the filetering search state
+  const filtSelection = { selected };
+  const filter = users.filter((user) =>
+    user[selected].toLowerCase().includes(search.toLowerCase())
+  );
+  useEffect(() => {
+    setFiltered(filter);
+  }, [search]);
+
   return (
     <Container>
       {loading ? (
@@ -59,7 +79,12 @@ const Users = () => {
         <>
           <Row className="mb-3">
             <Col className="text-start">
-              <Search />
+              <Search
+                getSearch={getSearch}
+                value={search}
+                selected={selected}
+                selectType={selectType}
+              />
             </Col>
 
             <Col className="text-end">
@@ -71,7 +96,7 @@ const Users = () => {
             </Col>
           </Row>
 
-          <DataTable users={users} />
+          <DataTable users={filtered.length > 0 ? filtered : users} />
         </>
       )}
 
