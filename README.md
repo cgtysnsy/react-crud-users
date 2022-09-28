@@ -12,7 +12,9 @@
   * Createuser modal
 
 ### 2- Create Components State Data
------------------------------------------------
+
+---
+
 > What I practiced?
 
 - Passing data to components
@@ -28,10 +30,9 @@
 - setState callbacks
 - Stateless functional components
 - Project structure
+- Update and delete functionality for components
 
 ## Tasks to do
-
-- Update and delete functionality for components
 
 - Pagination
 
@@ -42,6 +43,7 @@
 
 ## Image
 
-![alt text](./public/asstes/images/crud.jpg "Tasks")
+![alt text](./public/asstes/images/navbar-crud.jpg "Tasks")
+![alt text](./public/asstes/images/update-delete-crud.jpg "Tasks")
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

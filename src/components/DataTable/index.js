@@ -1,8 +1,6 @@
 import { Table, Button } from "react-bootstrap";
 
-const DataTable = ({ users }) => {
-  const updateRow = () => {};
-  const deleteRow = () => {};
+const DataTable = ({ users, updateRow, deleteRow }) => {
   return (
     <Table striped bordered hover>
       <thead>
@@ -28,10 +26,13 @@ const DataTable = ({ users }) => {
               <td>{user.email}</td>
               <td>{user.birthdate}</td>
               <td>
-                <Button variant="primary" onClick={() => updateRow(user)}>
+                <Button
+                  variant="primary"
+                  onClick={() => updateRow(user.createdAt)}
+                >
                   Update
-                </Button>{" "}
-                <Button variant="danger" onClick={() => deleteRow(user)}>
+                </Button>
+                <Button variant="danger" onClick={() => deleteRow(user.id)}>
                   Delete
                 </Button>
               </td>

@@ -1,30 +1,28 @@
 import { Modal, Form, Button } from "react-bootstrap";
 import { useState } from "react";
 
-const CreateUser = ({ modal, setModal, createUser }) => {
-  const [user, setUser] = useState({
-    id: null,
-    firstname: "",
-    lastname: "",
-    email: "",
-    avatar: "",
-    birthdate: "",
-  });
-
+const UpdateUser = ({
+  user,
+  modal,
+  setModal,
+  updateUser,
+  setUpdateuser,
+  updateDatawithnewrow,
+}) => {
   const onInputChange = (e) => {
-    console.log("onInputChange");
+    console.log(updateUser.id);
     const { name, value } = e.target;
 
-    setUser({ ...user, [name]: value });
+    setUpdateuser({ ...updateUser, [name]: value });
   };
 
   const onSubmit = (e) => {
+    console.log("click");
     e.preventDefault();
     // custom validation
-    if (!user.firstname || !user.lastname) return;
-    createUser(user);
-  };
 
+    updateDatawithnewrow(updateUser.id, updateUser);
+  };
   return (
     <>
       <Modal.Header closeButton>
@@ -39,7 +37,7 @@ const CreateUser = ({ modal, setModal, createUser }) => {
               placeholder="First Name"
               name="firstname"
               onChange={onInputChange}
-              defaultValue={user.firstname}
+              defaultValue={updateUser.firstname}
             />
           </Form.Group>
 
@@ -50,7 +48,7 @@ const CreateUser = ({ modal, setModal, createUser }) => {
               placeholder="Last Name"
               name="lastname"
               onChange={onInputChange}
-              defaultValue={user.lastname}
+              defaultValue={updateUser.lastname}
             />
           </Form.Group>
 
@@ -61,7 +59,7 @@ const CreateUser = ({ modal, setModal, createUser }) => {
               placeholder="Email"
               name="email"
               onChange={onInputChange}
-              defaultValue={user.email}
+              defaultValue={updateUser.email}
             />
           </Form.Group>
 
@@ -72,7 +70,7 @@ const CreateUser = ({ modal, setModal, createUser }) => {
               placeholder="Avatar URL"
               name="avatar"
               onChange={onInputChange}
-              defaultValue={user.avatar}
+              defaultValue={updateUser.avatar}
             />
           </Form.Group>
 
@@ -83,7 +81,7 @@ const CreateUser = ({ modal, setModal, createUser }) => {
               placeholder="Birth date"
               name="birthdate"
               onChange={onInputChange}
-              defaultValue={user.birthdate}
+              defaultValue={updateUser.birthdate}
             />
           </Form.Group>
         </Form>
@@ -93,11 +91,12 @@ const CreateUser = ({ modal, setModal, createUser }) => {
           Close
         </Button>
         <Button variant="primary" onClick={onSubmit}>
-          Save Changes
+          Update Changes
         </Button>
       </Modal.Footer>
     </>
   );
+  return <div>deneme</div>;
 };
 
-export default CreateUser;
+export default UpdateUser;

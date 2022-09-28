@@ -5,6 +5,7 @@ import DataTable from "../DataTable";
 import Loader from "../Loader";
 import Search from "../Search";
 import CreateUser from "../CreateUser";
+import UpdateUser from "../UpdateUser/index";
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -13,6 +14,16 @@ const Users = () => {
   const [search, setSearch] = useState("");
   const [filtered, setFiltered] = useState([]);
   const [selected, setSelected] = useState("firstname");
+  const [updateUser, setUpdateuser] = useState({
+    id: null,
+    firstname: "",
+    lastname: "",
+    email: "",
+    avatar: "",
+    birthdate: "",
+  });
+  const [dependency, setDependency] = useState(false);
+
   const fetchUsers = async () => {
     setLoading(true);
 
@@ -29,13 +40,16 @@ const Users = () => {
         setLoading(false);
       }, 500);
     }
-    console.log(users);
   };
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
 
   const createUser = async (user) => {
     setModal({ active: false });
     setLoading(true);
-
+    console.log(user);
     try {
       const res = await axios.post(
         "https://632e1123b37236d2ebe5af2c.mockapi.io/users",
@@ -50,26 +64,84 @@ const Users = () => {
     }
   };
 
-  useEffect(() => {
-    fetchUsers();
-  }, []);
-
   //function for the search
   const getSearch = (e) => {
     setSearch(e.target.value);
   };
+  //select type for search
   const selectType = (e) => {
     setSelected(e.target.value);
   };
 
-  //function for the filetering search state
-  const filtSelection = { selected };
-  const filter = users.filter((user) =>
-    user[selected].toLowerCase().includes(search.toLowerCase())
-  );
+  //function for the filtering search state
+  // const filtSelection = { selected };
+
   useEffect(() => {
+    const filter = users.filter((user) =>
+      user[selected].toLowerCase().includes(search.toLowerCase())
+    );
     setFiltered(filter);
   }, [search]);
+
+  //update button handler; store to state which user is selected -- modal name set
+  const updateRow = (value) => {
+    const willUpdateUser = users.filter((user) => user.createdAt === value);
+    const newObject = willUpdateUser[0];
+
+    setUpdateuser({
+      ...updateUser,
+      id: newObject.id,
+      firstname: newObject.firstname,
+      lastname: newObject.lastname,
+      email: newObject.email,
+      avatar: newObject.avatar,
+      birthdate: newObject.birthdate,
+    });
+    setModal({ name: "Edit User", active: true });
+  };
+  //delete user from updateRow
+
+  const deleteRow = async (id) => {
+    setModal({ active: false });
+    setLoading(true);
+
+    try {
+      const res = await axios.delete(
+        `https://632e1123b37236d2ebe5af2c.mockapi.io/users/${id}`
+      );
+
+      setUsers(res.data);
+    } catch (err) {
+      console.error("Error creating user", err);
+    } finally {
+      setLoading(false);
+      setDependency(!dependency);
+    }
+  };
+
+  //from edituser component, after update user, this user information and id wa came then with put method api data was updated.
+  const updateDatawithnewrow = async (id, user) => {
+    setModal({ active: false });
+    setLoading(true);
+
+    try {
+      const res = await axios.put(
+        `https://632e1123b37236d2ebe5af2c.mockapi.io/users/${id}`,
+        user
+      );
+
+      setUsers(res.data);
+    } catch (err) {
+      console.error("Error creating user", err);
+    } finally {
+      setLoading(false);
+      setDependency(!dependency);
+    }
+  };
+  //useeffect is used with fake state, for after update new user list could be load
+  useEffect(() => {
+    fetchUsers();
+  }, [dependency]);
 
   return (
     <Container>
@@ -96,17 +168,30 @@ const Users = () => {
             </Col>
           </Row>
 
-          <DataTable users={filtered.length > 0 ? filtered : users} />
+          <DataTable
+            users={filtered.length > 0 ? filtered : users}
+            updateRow={updateRow}
+            deleteRow={deleteRow}
+          />
         </>
       )}
 
       {modal.active && (
         <Modal show={modal.active} onHide={() => setModal({ active: false })}>
-          {modal.name === "Create User" && (
+          {modal.name === "Create User" ? (
             <CreateUser
               modal={modal}
               setModal={setModal}
               createUser={createUser}
+            />
+          ) : (
+            <UpdateUser
+              us
+              modal={modal}
+              setModal={setModal}
+              updateUser={updateUser}
+              setUpdateuser={setUpdateuser}
+              updateDatawithnewrow={updateDatawithnewrow}
             />
           )}
         </Modal>
