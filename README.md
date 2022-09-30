@@ -34,7 +34,7 @@ https://w1fr7p-3000.preview.csb.app/
 - Stateless functional components
 - Project structure
 - Update and delete functionality for components
-- Before remove user, modal opened and asking for confirmation
+- Before remove user, modal opens and asking for confirmation
 
 ## Tasks to do
 
