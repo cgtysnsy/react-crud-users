@@ -1,7 +1,7 @@
 ## Crud Users
 
 > Live Link:
-https://w1fr7p-3000.preview.csb.app/
+https://8z2r1q-3000.preview.csb.app/
 
 ### Steps
 
