@@ -2,7 +2,7 @@ import { Modal, Form, Button } from "react-bootstrap";
 import { useState } from "react";
 
 const UpdateUser = ({
-  user,
+  users,
   modal,
   setModal,
   updateUser,

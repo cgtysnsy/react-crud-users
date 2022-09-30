@@ -6,6 +6,7 @@ import Loader from "../Loader";
 import Search from "../Search";
 import CreateUser from "../CreateUser";
 import UpdateUser from "../UpdateUser/index";
+import ModalDelete from "../ModalDelete/index";
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -22,6 +23,7 @@ const Users = () => {
     avatar: "",
     birthdate: "",
   });
+  //const[removeUser, setRemoveUser] = useState("")
   const [dependency, setDependency] = useState(false);
 
   const fetchUsers = async () => {
@@ -101,6 +103,22 @@ const Users = () => {
   };
   //delete user from updateRow
 
+  //first open model for "are you sure"
+  const deleteConfirm = (id) => {
+    setModal({ name: "Delete Confirm", active: true });
+    const removeUser = users.filter((user) => user.id === id);
+    const removeUserObject = removeUser[0];
+    setUpdateuser({
+      ...updateUser,
+      id: removeUserObject.id,
+      firstname: removeUserObject.firstname,
+      lastname: removeUserObject.lastname,
+      email: removeUserObject.email,
+      avatar: removeUserObject.avatar,
+      birthdate: removeUserObject.birthdate,
+    });
+  };
+
   const deleteRow = async (id) => {
     setModal({ active: false });
     setLoading(true);
@@ -172,6 +190,7 @@ const Users = () => {
             users={filtered.length > 0 ? filtered : users}
             updateRow={updateRow}
             deleteRow={deleteRow}
+            deleteConfirm={deleteConfirm}
           />
         </>
       )}
@@ -184,14 +203,24 @@ const Users = () => {
               setModal={setModal}
               createUser={createUser}
             />
-          ) : (
+          ) : modal.name === "Edit User" ? (
             <UpdateUser
-              us
+              users={users}
               modal={modal}
               setModal={setModal}
               updateUser={updateUser}
               setUpdateuser={setUpdateuser}
               updateDatawithnewrow={updateDatawithnewrow}
+            />
+          ) : (
+            <ModalDelete
+              users={users}
+              modal={modal}
+              setModal={setModal}
+              deleteConfirm={deleteConfirm}
+              updateUser={updateUser}
+              setUpdateuser={setUpdateuser}
+              deleteRow={deleteRow}
             />
           )}
         </Modal>
